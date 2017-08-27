@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="actor")
+ * @ORM\Table(name="actor_new")
  */
-class Actor
+class ActorNew
 {
     /**
      * @ORM\Column(type="integer")
@@ -28,7 +28,7 @@ class Actor
     public $fee;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string")
      */
     public $description;
 }
