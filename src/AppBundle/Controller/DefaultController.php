@@ -18,7 +18,7 @@ class DefaultController extends Ctrl
      */
     public function indexAction(Request $request) {
 		
-		$em = $this->getDoctrine()->getManager();
+		$entityManager = $this->getDoctrine()->getManager();
 		
 		$product = new Product();
 		
@@ -27,10 +27,10 @@ class DefaultController extends Ctrl
 		$product->price = 9999;
 		
 		 // tells Doctrine you want to (eventually) save the Product (no queries yet)
-		$em->persist($product);
+        $entityManager->persist($product);
 
 		// actually executes the queries (i.e. the INSERT query)
-		$em->flush();
+        $entityManager->flush();
 		
 		 return new Response('Saved new product with id '.$product->id);
 	
@@ -41,17 +41,17 @@ class DefaultController extends Ctrl
     }
 	
 	/**
-     * @Route("/products/{id}", name="products")
+     * @Route("/products/{price}", name="products")
      */
-    public function showAction($id)
+    public function showAction($price)
 	{
 		$product = $this->getDoctrine()
 			->getRepository(Product::class)
-			->find($id);
+			->findOneBy(['price' => $price]);
 
 		if (!$product) {
 			throw $this->createNotFoundException(
-				'No product found for id '.$id
+				'No product found for price '.$price
 			);
 		}
 		return $this->render('default/index.html.twig', [
