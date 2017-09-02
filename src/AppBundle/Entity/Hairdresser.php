@@ -26,17 +26,3 @@ class Hairdresser
      */
     public $description;
 }
-class Service extends Hairdresser
-{
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    public $id;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    public $description;
-}

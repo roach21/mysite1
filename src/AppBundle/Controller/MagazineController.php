@@ -2,66 +2,66 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\ServiceType;
+use AppBundle\Form\ProductType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as Ctrl;
 use Symfony\Component\HttpFoundation\Request;
 
-use AppBundle\Entity\Service;
+use AppBundle\Entity\Product;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
-class HairdresserController extends Ctrl
+class MagazineController extends Ctrl
 {
 
     /**
-     * @Route("/hairdresser/", name="hairdresser")
+     * @Route("/magazine/", name="magazine")
      */
     public function indexAction(Request $request) {
         // create a task and give it some dummy data for this example
-        $service = new Service();
+        $product = new Product();
 
-        $form = $this->createForm(ServiceType::class);
+        $form = $this->createForm(ProductType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
-            $service = $form->getData();
+            $product = $form->getData();
 
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($service);
-            $em->flush();
+             $em = $this->getDoctrine()->getManager();
+             $em->persist($product);
+             $em->flush();
 
-            return $this->redirectToRoute('hairdresser_service', ['id' => $service->id]);
+            return $this->redirectToRoute('magazine_product', ['id' => $product->id]);
         }
 
-        return $this->render('hair/hair.html.twig', array(
+        return $this->render('default/new.html.twig', array(
             'form' => $form->createView(),
         ));
     }
 
     /**
-     * @Route("/hairdresser/service/{id}", name="hairdresser_service")
+     * @Route("/magazine/products/{id}", name="magazine_product")
      */
     public function showAction($id)
     {
-        $service = $this->getDoctrine()
-            ->getRepository(Service::class)
+        $product = $this->getDoctrine()
+            ->getRepository(Product::class)
             ->findOneBy(['id' => $id]);
 
-        if (!$service) {
+        if (!$product) {
             throw $this->createNotFoundException(
-                'No service found for id '.$id
+                'No product found for id '.$id
             );
         }
         return $this->render('default/index.html.twig', [
-            'service' => $service
+            'product' => $product
         ]);
     }
 }
